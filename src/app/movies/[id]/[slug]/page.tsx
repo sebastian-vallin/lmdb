@@ -1,7 +1,7 @@
 import MovieCard from "@/components/movie-card";
 import { Rating } from "@/components/rating";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import {
   useTmdbBackdrop as tmdbBackdrop,
