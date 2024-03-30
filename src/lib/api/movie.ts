@@ -2,6 +2,8 @@
 
 import { u } from "./helpers";
 
+// #region Types
+
 export interface PaginationResponse {
   page: number;
   total_results: number;
@@ -117,6 +119,31 @@ export interface MovieDetails {
   vote_average: number;
   vote_count: number;
 }
+
+export interface AuthorDetails {
+  name: string;
+  username: string;
+  avatar_path: string;
+  rating: number | null;
+}
+
+export interface Review {
+  id: string;
+  author: string;
+  author_details: AuthorDetails;
+  content: string;
+  created_at: string;
+  updated_at: string;
+  url: string;
+}
+
+export interface ReviewsResponse extends PaginationResponse {
+  results: Review[];
+}
+
+//#endregion Types
+
+// #region API
 
 export const getPopular = async (page?: string | number | undefined) => {
   const url = u("/movie/popular", page ? `page=${page}` : undefined);
@@ -253,3 +280,27 @@ export const recommendations = async (id: string | number) => {
   const data: RecommendationsResponse = await response.json();
   return data;
 };
+
+export const reviews = async (id: string | number) => {
+  const url = u(`/movie/${id}/reviews`);
+  const response = await fetch(url, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    console.error(response, await response.text());
+    return {
+      page: 1,
+      total_pages: 1,
+      total_results: 0,
+      results: [],
+    };
+  }
+
+  const data: ReviewsResponse = await response.json();
+  return data;
+};
+
+//#endregion API

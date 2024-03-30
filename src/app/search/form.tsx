@@ -25,7 +25,12 @@ const SearchForm: FC<SearchFormProps> = ({ defaultQuery }) => {
           router.push(`/search?q=${q}`);
         }}
       >
-        <Input defaultValue={defaultQuery} name="q" placeholder="Search" />
+        <Input
+          autoFocus
+          defaultValue={defaultQuery}
+          name="q"
+          placeholder="Search"
+        />
         <Button type="submit">Search</Button>
       </form>
     </div>

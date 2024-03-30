@@ -1,20 +1,13 @@
 import MovieCard from "@/components/movie-card";
 import { Rating } from "@/components/rating";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { Button } from "@/components/ui/button";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import {
   useTmdbBackdrop as tmdbBackdrop,
   useTmdbPoster as tmdbPoster,
 } from "@/hooks/useTmdbImage";
-import { credits, getById, recommendations } from "@/lib/api/movie";
+import { credits, getById, recommendations, reviews } from "@/lib/api/movie";
 import { formatDate } from "@/lib/utils";
 import { MoveRight } from "lucide-react";
 import { NextPage } from "next";
@@ -23,7 +16,7 @@ import Link from "next/link";
 import { RedirectType, notFound, redirect } from "next/navigation";
 import { Fragment } from "react";
 import slugify from "slugify";
-import Reviews from "./reviews";
+import Review from "./review";
 
 interface Props {
   params: {
@@ -34,9 +27,10 @@ interface Props {
 
 const MovieDetailsPage: NextPage<Props> = async ({ params }) => {
   const movie = (await getById(params.id)) ?? notFound();
-  const [credit, recommended] = await Promise.all([
+  const [credit, recommended, review] = await Promise.all([
     credits(movie.id),
     recommendations(movie.id),
+    reviews(movie.id),
   ]);
   const slug = slugify(movie.title, { lower: true, strict: true });
 
@@ -190,11 +184,16 @@ const MovieDetailsPage: NextPage<Props> = async ({ params }) => {
                       </AspectRatio>
                     </div>
                   </Link>
-                  <p className="mt-1 text-sm font-medium">{actor.name}</p>
-                  <p className="text-xs text-muted-foreground">
-                    <Link href={`/person/${actor.id}/${actorSlug}`}>
-                      {actor.character}
+                  <p className="mt-1 text-sm font-medium">
+                    <Link
+                      className="underline-offset-4 hover:underline"
+                      href={`/person/${actor.id}/${actorSlug}`}
+                    >
+                      {actor.name}
                     </Link>
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {actor.character}
                   </p>
                 </div>
               );
@@ -214,32 +213,33 @@ const MovieDetailsPage: NextPage<Props> = async ({ params }) => {
 
       <div className="container mt-8">
         <h2 className="mb-2 text-2xl font-bold">Reviews</h2>
-        <Reviews />
+        {review.results[0] && <Review review={review.results[0]} clamp />}
+
+        <Button asChild variant="secondary" className="mt-4">
+          <Link href={`/movies/${movie.id}/${slug}/reviews`}>
+            View all review
+          </Link>
+        </Button>
       </div>
 
       <div className="container mt-8">
         <h2 className="mb-2 text-2xl font-bold">Recommended</h2>
-
-        <Carousel className="mx-auto w-full">
-          <CarouselContent>
-            {recommended.results.map((movie) => (
-              <CarouselItem
-                key={`popular-${movie.id}`}
-                className="basis-full md:basis-1/2 lg:basis-1/4 xl:basis-1/5"
-              >
-                <MovieCard movie={movie} />
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <div className="flex justify-end gap-4 pt-2 md:justify-between">
-            <div>
-              <CarouselPrevious className="static translate-x-0 translate-y-0" />
+        <ScrollArea type="auto" className="whitespace-nowrap">
+          {recommended.results.length <= 0 ? (
+            <p className="text-sm">
+              No recommendations found for this movie. Check back again later.
+            </p>
+          ) : (
+            <div className="flex w-max space-x-4 px-2 pb-4">
+              {recommended.results.slice(0, 10).map((movie, i) => (
+                <div key={`recommended-${i}-${movie.id}`} className="w-52">
+                  <MovieCard movie={movie} />
+                </div>
+              ))}
             </div>
-            <div>
-              <CarouselNext className="static translate-x-0 translate-y-0" />
-            </div>
-          </div>
-        </Carousel>
+          )}
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
       </div>
     </main>
   );

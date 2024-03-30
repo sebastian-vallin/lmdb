@@ -1,3 +1,5 @@
+import { AuthorDetails } from "@/lib/api/movie";
+
 export type TmdbImageSize =
   | "w92"
   | "w154"
@@ -29,4 +31,15 @@ function useTmdbBackdrop<TSize extends TmdbImageSize = "w500">(
   return `https://image.tmdb.org/t/p/${size}/${movie.backdrop_path}` as const;
 }
 
-export { useTmdbPoster, useTmdbBackdrop };
+function useTmdbProfile<TSize extends TmdbImageSize = "w500">(
+  authorDetails: AuthorDetails,
+  size: TSize = "w500" as TSize,
+) {
+  if (!authorDetails.avatar_path) {
+    return "/placeholder.svg" as const;
+  }
+
+  return `https://image.tmdb.org/t/p/${size}/${authorDetails.avatar_path}` as const;
+}
+
+export { useTmdbPoster, useTmdbBackdrop, useTmdbProfile };

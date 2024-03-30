@@ -53,7 +53,12 @@ const HomePage = async () => {
             </Button>
           </div>
 
-          <Carousel className="mx-auto w-full md:max-w-[calc(100%-4rem)]">
+          <Carousel
+            className="mx-auto w-full md:max-w-[calc(100%-4rem)]"
+            opts={{
+              loop: true,
+            }}
+          >
             <CarouselContent>
               {popularMovies.results.map((movie) => (
                 <CarouselItem
