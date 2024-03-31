@@ -2,6 +2,36 @@ import { u } from "./helpers";
 
 //#region Types
 
+export interface PersonKnownFor {
+  adult: boolean;
+  backdrop_path: string;
+  genre_ids: number[];
+  id: number;
+  media_type: "movie" | "tv";
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  release_date: string;
+  title: string;
+  vote_average: number;
+  vote_count: number;
+}
+
+export interface Person {
+  id: number;
+  adult: boolean;
+  name: string;
+  original_name: string;
+  popularity: number;
+  gender: number;
+  known_for_department: string;
+  profile_path: string;
+  known_for: PersonKnownFor[];
+  media_type: "person";
+}
+
 export interface PersonDetails {
   id: number;
   adult: boolean;

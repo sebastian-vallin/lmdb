@@ -25,6 +25,7 @@ export interface Movie {
   video: boolean;
   vote_average: number;
   vote_count: number;
+  media_type: "movie";
 }
 
 export interface PopularMoviesResponse extends PaginationResponse {
@@ -225,7 +226,7 @@ export const search = async (
 
   const url = u(
     `/search/movie`,
-    `query=${query}&${page ? "page=" + page : ""}`,
+    `query=${query}&${page ? "page=" + page : ""}&`,
   );
 
   const response = await fetch(encodeURI(url), {
