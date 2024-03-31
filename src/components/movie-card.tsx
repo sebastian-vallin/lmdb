@@ -13,10 +13,14 @@ import { Movie } from "@/lib/api/movie";
 import { useTmdbPoster } from "@/hooks/useTmdbImage";
 import { AspectRatio } from "./ui/aspect-ratio";
 import slugify from "slugify";
-import { CreditUnion, MovieCredit, TvCredit } from "@/lib/api/person";
+import {
+  CastCreditUnion,
+  CastMovieCredit,
+  CastTvCredit,
+} from "@/lib/api/person";
 
 export interface MovieCardProps {
-  movie: Movie | CreditUnion | MovieCredit | TvCredit;
+  movie: Movie | CastCreditUnion | CastMovieCredit | CastTvCredit;
 }
 
 const MovieCard: FC<MovieCardProps> = ({ movie }) => {

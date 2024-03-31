@@ -19,7 +19,7 @@ export interface PersonDetails {
   profile_path: string;
 }
 
-export interface MovieCredit {
+export interface CastMovieCredit {
   id: number;
   adult: boolean;
   backdrop_path: string;
@@ -40,7 +40,7 @@ export interface MovieCredit {
   media_type: "movie";
 }
 
-export interface TvCredit {
+export interface CastTvCredit {
   id: number;
   adult: boolean;
   backdrop_path: string;
@@ -52,7 +52,6 @@ export interface TvCredit {
   poster_path: string;
   first_air_date: string;
   name: string;
-  video: boolean;
   vote_average: number;
   vote_count: number;
   character: string;
@@ -62,18 +61,62 @@ export interface TvCredit {
   media_type: "tv";
 }
 
-export type CreditUnion = MovieCredit | TvCredit;
+export interface CrewMovieCredit {
+  id: number;
+  adult: boolean;
+  backdrop_path: string;
+  genre_ids: number[];
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  release_date: string;
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+  character: string;
+  credit_id: string;
+  order: number;
+  media_type: "movie";
+}
+
+export interface CrewTvCredit {
+  id: number;
+  adult: boolean;
+  backdrop_path: string;
+  genre_ids: number[];
+  original_language: string;
+  original_name: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  first_air_date: string;
+  name: string;
+  vote_average: number;
+  vote_count: number;
+  episode_count: number;
+  credit_id: string;
+  order: number;
+  department: string;
+  job: string;
+  media_type: "tv";
+}
+
+export type CastCreditUnion = CastMovieCredit | CastTvCredit;
+export type CrewCreditUnion = CrewMovieCredit | CrewTvCredit;
 
 export interface CombinedCreditsResponse {
   id: number;
-  cast: CreditUnion[];
-  crew: CreditUnion[];
+  cast: CastCreditUnion[];
+  crew: CastCreditUnion[];
 }
 
 export interface MovieCreditsResponse {
   id: number;
-  cast: MovieCredit[];
-  crew: MovieCredit[];
+  cast: CastMovieCredit[];
+  crew: CastMovieCredit[];
 }
 
 export interface PersonDetailsAppended extends PersonDetails {
