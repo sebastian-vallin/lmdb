@@ -34,7 +34,6 @@ const MovieList: FC<MovieListProps> = ({
   });
 
   const loadMore = useCallback(async () => {
-    console.log("load more");
     setIsLoading(true);
     const nextPage = page + 1;
     const results = loadFn ? await loadFn(nextPage) : [];

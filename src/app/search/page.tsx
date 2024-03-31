@@ -55,8 +55,6 @@ const SearchPage: NextPage<Props> = async ({
     }
   }
 
-  console.log(results);
-
   return (
     <main className="container mt-8 space-y-4">
       <h1 className="text-4xl font-bold">Search</h1>
