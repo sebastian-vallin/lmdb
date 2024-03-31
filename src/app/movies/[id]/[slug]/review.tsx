@@ -39,7 +39,10 @@ const Review: FC<ReviewProps> = ({ review, clamp = false }) => {
             <Badge className="gap-1" asChild>
               <span>
                 <Star className="h-3 w-3 fill-white" />
-                {review.author_details.rating?.toFixed(1)}
+                {review.author_details.rating
+                  ? review.author_details.rating * 10
+                  : 0}
+                %
               </span>
             </Badge>
             <small className="text-xs">

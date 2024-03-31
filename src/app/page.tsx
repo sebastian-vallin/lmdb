@@ -19,7 +19,7 @@ const HomePage = async () => {
 
   return (
     <main>
-      <div className="mb-8 bg-primary/25 py-24">
+      <div className="mb-8 bg-primary py-24 text-primary-foreground">
         <div className="container">
           <h1 className="text-center text-5xl font-semibold">
             <span className="relative">

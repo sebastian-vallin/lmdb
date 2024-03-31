@@ -24,7 +24,7 @@ const Navbar = () => {
   }, [pathname]);
 
   return (
-    <header className="border-b border-border/40">
+    <header className="bg-primary">
       <div className="container flex h-14 w-full items-center">
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
@@ -47,7 +47,7 @@ const Navbar = () => {
                       size: "lg",
                       variant: isPending ? "secondary" : "ghost",
                     }),
-                    "justify-start ps-2 text-base text-foreground/50",
+                    "justify-start ps-2 text-base text-foreground/60",
                     isActive && "text-foreground",
                     isPending && "animate-pulse",
                   )
@@ -63,7 +63,7 @@ const Navbar = () => {
                       size: "lg",
                       variant: isPending ? "secondary" : "ghost",
                     }),
-                    "justify-start ps-2 text-base text-foreground/50",
+                    "justify-start ps-2 text-base text-foreground/60",
                     isActive && "text-foreground",
                     isPending && "animate-pulse",
                   )
@@ -75,7 +75,10 @@ const Navbar = () => {
           </SheetContent>
         </Sheet>
 
-        <Link href="/" className="mr-2 hidden text-lg font-bold lg:flex">
+        <Link
+          href="/"
+          className="mr-4 hidden text-lg font-bold text-primary-foreground lg:flex"
+        >
           LMDB
         </Link>
         <nav className="hidden items-center gap-2 lg:flex">
@@ -88,8 +91,8 @@ const Navbar = () => {
                   size: "lg",
                   variant: isPending ? "secondary" : "ghost",
                 }),
-                "text-base text-foreground/50",
-                isActive && "text-foreground",
+                "text-base text-primary-foreground/60",
+                isActive && "text-primary-foreground",
                 isPending && "animate-pulse",
               )
             }
@@ -105,8 +108,8 @@ const Navbar = () => {
                   size: "lg",
                   variant: isPending ? "secondary" : "ghost",
                 }),
-                "text-base text-foreground/50",
-                isActive && "text-foreground",
+                "text-base text-primary-foreground/60",
+                isActive && "text-primary-foreground",
                 isPending && "animate-pulse",
               )
             }
@@ -122,8 +125,8 @@ const Navbar = () => {
                   size: "lg",
                   variant: isPending ? "secondary" : "ghost",
                 }),
-                "text-base text-foreground/50",
-                isActive && "text-foreground",
+                "text-base text-primary-foreground/60",
+                isActive && "text-primary-foreground",
                 isPending && "animate-pulse",
               )
             }

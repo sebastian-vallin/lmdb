@@ -18,7 +18,7 @@ const TopBar: FC<TopBarProps> = ({ movie }) => {
   return (
     <>
       <div className="sticky top-0 z-10 w-full bg-background">
-        <div className="bg-primary/25 pb-1 pt-2">
+        <div className="bg-primary pb-1 pt-2 text-primary-foreground">
           <div className="container flex items-center gap-4">
             <Link href={movieUrl}>
               <div className="w-10">
@@ -36,7 +36,7 @@ const TopBar: FC<TopBarProps> = ({ movie }) => {
             <div className="space-y-1">
               <h1 className="text-xl font-bold">
                 {movie.title}{" "}
-                <span className="opacity-50">
+                <span className="text-primary-foreground/50">
                   ({new Date(movie.release_date).getFullYear()})
                 </span>
               </h1>
@@ -53,7 +53,7 @@ const TopBar: FC<TopBarProps> = ({ movie }) => {
       </div>
 
       <div className="absolute top-0 z-20 w-full bg-background">
-        <div className="bg-primary/25 py-4">
+        <div className="bg-primary py-4 text-primary-foreground">
           <div className="container flex items-center gap-4">
             <Link href={movieUrl}>
               <div className="w-14 sm:w-20">
@@ -71,7 +71,7 @@ const TopBar: FC<TopBarProps> = ({ movie }) => {
             <div className="space-y-2">
               <h1 className="text-2xl font-bold sm:text-3xl">
                 {movie.title}{" "}
-                <span className="opacity-50">
+                <span className="text-primary-foreground/50">
                   ({new Date(movie.release_date).getFullYear()})
                 </span>
               </h1>

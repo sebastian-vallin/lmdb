@@ -57,6 +57,7 @@ const MovieDetailsPage: NextPage<Props> = async ({ params }) => {
         <div className="container relative z-10 mx-auto flex flex-col gap-8 p-8 text-white md:flex-row md:gap-12 lg:p-16">
           <div className="mx-auto flex max-w-sm items-center overflow-hidden rounded-lg md:mx-0">
             <Image
+              priority
               width={300}
               height={450}
               src={posterUrl}
@@ -134,6 +135,7 @@ const MovieDetailsPage: NextPage<Props> = async ({ params }) => {
         </div>
         <div className="absolute left-0 top-0 h-full w-full">
           <Image
+            priority
             className="h-full w-full object-cover"
             width={1920}
             height={1080}

@@ -110,6 +110,7 @@ const PersonDetailsPage: NextPage<Props> = async ({ params }) => {
           <div className="mx-auto w-64">
             <AspectRatio ratio={2 / 3}>
               <Image
+                priority
                 src={imageUrl}
                 alt={person.name}
                 fill
