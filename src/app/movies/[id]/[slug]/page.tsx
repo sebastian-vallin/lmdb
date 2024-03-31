@@ -7,7 +7,7 @@ import {
   useTmdbBackdrop as tmdbBackdrop,
   useTmdbPoster as tmdbPoster,
 } from "@/hooks/useTmdbImage";
-import { credits, getById, recommendations, reviews } from "@/lib/api/movie";
+import { getDetails } from "@/lib/api/movie";
 import { formatDate } from "@/lib/utils";
 import { MoveRight } from "lucide-react";
 import { NextPage } from "next";
@@ -26,17 +26,10 @@ interface Props {
 }
 
 const MovieDetailsPage: NextPage<Props> = async ({ params }) => {
-  const movie = (await getById(params.id)) ?? notFound();
-  const [credit, recommended, review] = await Promise.all([
-    credits(movie.id),
-    recommendations(movie.id),
-    reviews(movie.id),
-  ]);
-  const slug = slugify(movie.title, { lower: true, strict: true });
+  const { credits, recommendations, reviews, ...movie } =
+    (await getDetails(params.id)) ?? notFound();
 
-  if (!credit) {
-    throw new Error("Failed to load credits");
-  }
+  const slug = slugify(movie.title, { lower: true, strict: true });
 
   if (!params.slug) {
     redirect(`/movies/${params.id}/${slug}`, RedirectType.replace);
@@ -46,11 +39,11 @@ const MovieDetailsPage: NextPage<Props> = async ({ params }) => {
   const backdropUrl = tmdbBackdrop(movie, "w780");
   const releaseDate = new Date(movie.release_date);
 
-  const director = credit.crew.find((person) => person.job === "Director");
+  const director = credits.crew.find((person) => person.job === "Director");
   const directorSlug = director
     ? slugify(director.name, { lower: true, strict: true })
     : null;
-  const screenplay = credit.crew.find((person) => person.job === "Screenplay");
+  const screenplay = credits.crew.find((person) => person.job === "Screenplay");
   const screenplaySlug = screenplay
     ? slugify(screenplay.name, {
         lower: true,
@@ -161,7 +154,7 @@ const MovieDetailsPage: NextPage<Props> = async ({ params }) => {
         <h2 className="mb-2 text-2xl font-bold">Top cast</h2>
         <ScrollArea type="auto" className="whitespace-nowrap">
           <div className="flex w-max space-x-4 px-2 pb-4">
-            {credit.cast.slice(0, 10).map((actor) => {
+            {credits.cast.slice(0, 10).map((actor) => {
               const actorSlug = slugify(actor.name, {
                 lower: true,
                 strict: true,
@@ -213,7 +206,7 @@ const MovieDetailsPage: NextPage<Props> = async ({ params }) => {
 
       <div className="container mt-8">
         <h2 className="mb-2 text-2xl font-bold">Reviews</h2>
-        {review.results[0] && <Review review={review.results[0]} clamp />}
+        {reviews.results[0] && <Review review={reviews.results[0]} clamp />}
 
         <Button asChild variant="secondary" className="mt-4">
           <Link href={`/movies/${movie.id}/${slug}/reviews`}>
@@ -225,13 +218,13 @@ const MovieDetailsPage: NextPage<Props> = async ({ params }) => {
       <div className="container mt-8">
         <h2 className="mb-2 text-2xl font-bold">Recommended</h2>
         <ScrollArea type="auto" className="whitespace-nowrap">
-          {recommended.results.length <= 0 ? (
+          {recommendations.results.length <= 0 ? (
             <p className="text-sm">
               No recommendations found for this movie. Check back again later.
             </p>
           ) : (
             <div className="flex w-max space-x-4 px-2 pb-4">
-              {recommended.results.slice(0, 10).map((movie, i) => (
+              {recommendations.results.slice(0, 10).map((movie, i) => (
                 <div key={`recommended-${i}-${movie.id}`} className="w-52">
                   <MovieCard movie={movie} />
                 </div>

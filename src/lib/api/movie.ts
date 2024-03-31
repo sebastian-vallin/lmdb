@@ -11,10 +11,10 @@ export interface PaginationResponse {
 }
 
 export interface Movie {
+  id: number;
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
-  id: number;
   original_language: string;
   original_title: string;
   overview: string;
@@ -139,6 +139,12 @@ export interface Review {
 
 export interface ReviewsResponse extends PaginationResponse {
   results: Review[];
+}
+
+export interface MovieDetailsAppended extends MovieDetails {
+  credits: MovieCreditsResponse;
+  recommendations: RecommendationsResponse;
+  reviews: ReviewsResponse;
 }
 
 //#endregion Types
@@ -300,6 +306,26 @@ export const reviews = async (id: string | number) => {
   }
 
   const data: ReviewsResponse = await response.json();
+  return data;
+};
+
+export const getDetails = async (id: string | number) => {
+  const url = u(
+    `/movie/${id}`,
+    "append_to_response=credits,recommendations,reviews",
+  );
+  const response = await fetch(url, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    console.error(response, await response.text());
+    return null;
+  }
+
+  const data: MovieDetailsAppended = await response.json();
   return data;
 };
 
