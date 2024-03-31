@@ -142,7 +142,9 @@ const Navbar = () => {
           >
             <Link href="/search">
               <Search className="me-0 h-5 w-5 sm:me-2" />
-              <span className="sr-only sm:not-sr-only">Search movies...</span>
+              <span className="sr-only sm:not-sr-only">
+                Search movie, tv show, person
+              </span>
             </Link>
           </Button>
 

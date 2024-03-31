@@ -18,9 +18,10 @@ import {
   CastMovieCredit,
   CastTvCredit,
 } from "@/lib/api/person";
+import { TvShow } from "@/lib/api/tv-show";
 
 export interface MovieCardProps {
-  movie: Movie | CastCreditUnion | CastMovieCredit | CastTvCredit;
+  movie: Movie | TvShow | CastCreditUnion | CastMovieCredit | CastTvCredit;
 }
 
 const MovieCard: FC<MovieCardProps> = ({ movie }) => {
