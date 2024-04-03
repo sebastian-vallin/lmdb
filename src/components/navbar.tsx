@@ -71,6 +71,38 @@ const Navbar = () => {
               >
                 Popular
               </NavLink>
+              <NavLink
+                href="/movies/trending"
+                className={({ isActive, isPending }) =>
+                  cn(
+                    buttonVariants({
+                      size: "lg",
+                      variant: isPending ? "secondary" : "ghost",
+                    }),
+                    "justify-start ps-2 text-base text-foreground/60",
+                    isActive && "text-foreground",
+                    isPending && "animate-pulse",
+                  )
+                }
+              >
+                Trending
+              </NavLink>
+              <NavLink
+                href="/movies/top"
+                className={({ isActive, isPending }) =>
+                  cn(
+                    buttonVariants({
+                      size: "lg",
+                      variant: isPending ? "secondary" : "ghost",
+                    }),
+                    "justify-start ps-2 text-base text-foreground/60",
+                    isActive && "text-foreground",
+                    isPending && "animate-pulse",
+                  )
+                }
+              >
+                Top Rated
+              </NavLink>
             </div>
           </SheetContent>
         </Sheet>
@@ -132,6 +164,23 @@ const Navbar = () => {
             }
           >
             Trending
+          </NavLink>
+          <NavLink
+            href="/movies/top"
+            matching="exact"
+            className={({ isActive, isPending }) =>
+              cn(
+                buttonVariants({
+                  size: "lg",
+                  variant: isPending ? "secondary" : "ghost",
+                }),
+                "text-base text-primary-foreground/60",
+                isActive && "text-primary-foreground",
+                isPending && "animate-pulse",
+              )
+            }
+          >
+            Top Rated
           </NavLink>
         </nav>
         <nav className="ms-auto flex items-center gap-2">

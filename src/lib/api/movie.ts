@@ -194,6 +194,23 @@ export const getTrending = async (
   return data;
 };
 
+export const getTopRated = async (page?: string | number | undefined) => {
+  const url = u(`/movie/top_rated`, page ? `page=${page}` : "");
+  const response = await fetch(url, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    console.error(response, await response.text());
+    throw new Error("Failed to fetch trending movies");
+  }
+
+  const data: PopularMoviesResponse = await response.json();
+  return data;
+};
+
 export const getById = async (id: string | number) => {
   const url = u(`/movie/${id}`);
   const response = await fetch(url, {
