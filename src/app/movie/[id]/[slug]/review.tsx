@@ -27,7 +27,11 @@ const Review: FC<ReviewProps> = ({ review, clamp = false }) => {
     <Card>
       <CardHeader className="flex flex-row items-start space-x-4 space-y-0">
         <Avatar className="h-14 w-14">
-          <AvatarImage src={authorImgUrl ?? ""} alt={review.author} />
+          <AvatarImage
+            className="object-cover"
+            src={authorImgUrl ?? ""}
+            alt={review.author}
+          />
           <AvatarFallback className="text-lg font-bold">
             {review.author.charAt(0).toUpperCase()}
             {review.author.split(" ")?.[1]?.[0] ?? review.author[1]}

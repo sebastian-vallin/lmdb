@@ -47,7 +47,7 @@ const MovieCard: FC<MovieCardProps> = ({ movie }) => {
   const href =
     "media_type" in movie && movie.media_type === "tv"
       ? `/tv/${movie.id}/${slug}`
-      : `/movies/${movie.id}/${slug}`;
+      : `/movie/${movie.id}/${slug}`;
 
   return (
     <Card className="flex h-full flex-col">

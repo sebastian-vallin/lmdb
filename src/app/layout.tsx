@@ -23,16 +23,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={cn(
-          "flex min-h-screen flex-col bg-background font-sans antialiased",
-          fontSans.variable,
-        )}
+        className={cn("bg-background font-sans antialiased", fontSans.variable)}
       >
-        <Navbar />
+        <div
+          vaul-drawer-wrapper=""
+          className="flex min-h-screen flex-col bg-background"
+        >
+          <Navbar />
 
-        <div className="flex-1">{children}</div>
+          <div className="flex-1">{children}</div>
 
-        <Footer />
+          <Footer />
+        </div>
       </body>
     </html>
   );

@@ -19,11 +19,15 @@ const HomePage = async () => {
 
   return (
     <main>
-      <div className="mb-8 bg-primary py-24 text-primary-foreground">
+      <div className="mb-8 bg-primary/25 py-24">
         <div className="container">
           <h1 className="text-center text-5xl font-semibold">
             <span className="relative">
-              Welcome to <span className="font-bold">LMDB</span>
+              Welcome to{" "}
+              <span className="font-bold">
+                LM
+                <span className="text-primary underline">DB</span>
+              </span>
               <small className="absolute -bottom-4 right-0 text-xs">
                 Powered by{" "}
                 <a className="underline" href="https://www.themoviedb.org/">
@@ -46,21 +50,16 @@ const HomePage = async () => {
               asChild
               className="group w-full justify-between gap-1 md:w-auto"
             >
-              <Link href="/movies">
+              <Link href="/movie">
                 View all
                 <MoveRight className="h-5 w-5 transform transition-transform group-hover:translate-x-0.5" />
               </Link>
             </Button>
           </div>
 
-          <Carousel
-            className="mx-auto w-full md:max-w-[calc(100%-4rem)]"
-            opts={{
-              loop: true,
-            }}
-          >
+          <Carousel className="mx-auto w-full md:max-w-[calc(100%-4rem)]">
             <CarouselContent>
-              {popularMovies.results.map((movie) => (
+              {popularMovies.results.map((movie, i) => (
                 <CarouselItem
                   key={`popular-${movie.id}`}
                   className="basis-full md:basis-1/2 lg:basis-1/4 xl:basis-1/5"
@@ -90,7 +89,7 @@ const HomePage = async () => {
               asChild
               className="group w-full justify-between gap-1 md:w-auto"
             >
-              <Link href="/movies/trending">
+              <Link href="/movie/trending">
                 View all
                 <MoveRight className="h-5 w-5 transform transition-transform group-hover:translate-x-0.5" />
               </Link>

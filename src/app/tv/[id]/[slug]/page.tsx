@@ -16,7 +16,7 @@ import Link from "next/link";
 import { RedirectType, notFound, redirect } from "next/navigation";
 import { Fragment } from "react";
 import slugify from "slugify";
-import Review from "@/app/movies/[id]/[slug]/review";
+import Review from "@/app/movie/[id]/[slug]/review";
 
 interface Props {
   params: {
@@ -36,7 +36,7 @@ const TvShowDetailsPage: NextPage<Props> = async ({ params }) => {
   const slug = slugify(tvShow.name, { lower: true, strict: true });
 
   if (!params.slug) {
-    redirect(`/movies/${params.id}/${slug}`, RedirectType.replace);
+    redirect(`/movie/${params.id}/${slug}`, RedirectType.replace);
   }
 
   const posterUrl = tmdbPoster(tvShow, "w500");

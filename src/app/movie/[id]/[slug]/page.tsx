@@ -32,7 +32,7 @@ const MovieDetailsPage: NextPage<Props> = async ({ params }) => {
   const slug = slugify(movie.title, { lower: true, strict: true });
 
   if (!params.slug) {
-    redirect(`/movies/${params.id}/${slug}`, RedirectType.replace);
+    redirect(`/movie/${params.id}/${slug}`, RedirectType.replace);
   }
 
   const posterUrl = tmdbPoster(movie, "w500");
@@ -195,7 +195,7 @@ const MovieDetailsPage: NextPage<Props> = async ({ params }) => {
             })}
             <div className="flex flex-col items-center justify-center">
               <Button variant="link" className="group gap-1 font-bold" asChild>
-                <Link href={`/movies/${movie.id}/${slug}/cast`}>
+                <Link href={`/movie/${movie.id}/${slug}/cast`}>
                   View all
                   <MoveRight className="h-5 w-5 transition-transform group-hover:translate-x-0.5" />
                 </Link>
@@ -211,7 +211,7 @@ const MovieDetailsPage: NextPage<Props> = async ({ params }) => {
         {reviews.results[0] && <Review review={reviews.results[0]} clamp />}
 
         <Button asChild variant="secondary" className="mt-4">
-          <Link href={`/movies/${movie.id}/${slug}/reviews`}>
+          <Link href={`/movie/${movie.id}/${slug}/reviews`}>
             View all review
           </Link>
         </Button>

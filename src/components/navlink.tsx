@@ -40,6 +40,7 @@ const NavLink = React.forwardRef<HTMLAnchorElement, NavLinkProps>(
             : className
         }
         href={href}
+        {...(isActive ? { "data-active": true } : {})}
         {...props}
       />
     );

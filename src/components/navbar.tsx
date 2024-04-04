@@ -1,207 +1,375 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Button, buttonVariants } from "./ui/button";
 import Link from "next/link";
-import { Menu, Search } from "lucide-react";
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "./ui/sheet";
+  Film,
+  Flame,
+  Menu,
+  Search,
+  Sparkles,
+  TrendingUp,
+  Tv,
+  Users2,
+} from "lucide-react";
 import { NavLink } from "./navlink";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuIndicator,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "./ui/navigation-menu";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "./ui/drawer";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "./ui/accordion";
+import { Separator } from "./ui/separator";
+
+type NavItem = {
+  comp: React.ReactNode;
+  href: string;
+};
+
+type NavItemWithSubItems = {
+  comp: React.ReactNode;
+  base: string;
+  subItems: NavItem[];
+};
+
+const navItems: (NavItem | NavItemWithSubItems)[] = [
+  {
+    comp: (
+      <span className="flex gap-1">
+        <Film className="h-5 w-5" />
+        Movies
+      </span>
+    ),
+    base: "/movie",
+    subItems: [
+      {
+        comp: (
+          <span className="flex w-full items-center justify-between gap-1">
+            Popular
+            <Flame className="h-5 w-5 fill-transparent transition-all group-hover:scale-110 group-hover:fill-orange-600 group-hover:text-orange-600 group-focus:scale-110 group-focus:fill-orange-600 group-focus:text-orange-600 group-data-[active]:scale-110 group-data-[active]:fill-orange-600 group-data-[active]:text-orange-600" />
+          </span>
+        ),
+        href: "/movie",
+      },
+      {
+        comp: (
+          <span className="flex w-full items-center justify-between gap-1">
+            Trending
+            <TrendingUp className="h-5 w-5 transition-all group-hover:scale-x-125 group-hover:scale-y-105 group-hover:text-primary group-focus:scale-x-125 group-focus:scale-y-105 group-focus:text-primary group-data-[active]:scale-x-125 group-data-[active]:scale-y-105 group-data-[active]:text-primary" />
+          </span>
+        ),
+        href: "/movie/trending",
+      },
+      {
+        comp: (
+          <span className="flex w-full items-center justify-between gap-1">
+            Top Rated
+            <Sparkles className="h-5 w-5 fill-transparent transition-all group-hover:scale-110 group-hover:fill-yellow-500 group-hover:text-yellow-500 group-focus:scale-110 group-focus:fill-yellow-500 group-focus:text-yellow-500 group-data-[active]:scale-110 group-data-[active]:fill-yellow-500 group-data-[active]:text-yellow-500" />
+          </span>
+        ),
+        href: "/movie/top",
+      },
+    ],
+  },
+
+  {
+    comp: (
+      <span className="flex gap-1">
+        <Tv className="h-5 w-5" />
+        TV Shows
+      </span>
+    ),
+    base: "/tv",
+    subItems: [
+      {
+        comp: (
+          <span className="flex w-full items-center justify-between gap-1">
+            Popular
+            <Flame className="h-5 w-5 fill-transparent transition-all group-hover:fill-orange-600 group-hover:text-orange-600 group-focus:fill-orange-600 group-focus:text-orange-600 group-data-[active]:fill-orange-600 group-data-[active]:text-orange-600" />
+          </span>
+        ),
+        href: "/tv",
+      },
+      {
+        comp: (
+          <span className="flex w-full items-center justify-between gap-1">
+            Trending
+            <TrendingUp className="h-5 w-5 transition-all group-hover:scale-x-125 group-hover:scale-y-105 group-hover:text-primary group-focus:scale-x-125 group-focus:scale-y-105 group-focus:text-primary group-data-[active]:scale-x-125 group-data-[active]:scale-y-105 group-data-[active]:text-primary" />
+          </span>
+        ),
+        href: "/tv/trending",
+      },
+      {
+        comp: (
+          <span className="flex w-full items-center justify-between gap-1">
+            Top Rated
+            <Sparkles className="h-5 w-5 fill-transparent transition-all group-hover:fill-yellow-500 group-hover:text-yellow-500 group-focus:fill-yellow-500 group-focus:text-yellow-500 group-data-[active]:fill-yellow-500 group-data-[active]:text-yellow-500" />
+          </span>
+        ),
+        href: "/tv/top",
+      },
+    ],
+  },
+
+  {
+    comp: (
+      <span className="flex gap-1">
+        <Users2 className="h-5 w-5" />
+        People
+      </span>
+    ),
+    base: "/person",
+    subItems: [
+      {
+        comp: (
+          <span className="flex w-full items-center justify-between gap-1">
+            Popular
+            <Flame className="h-5 w-5 fill-transparent transition-all group-hover:fill-orange-600 group-hover:text-orange-600 group-focus:fill-orange-600 group-focus:text-orange-600 group-data-[active]:fill-orange-600 group-data-[active]:text-orange-600" />
+          </span>
+        ),
+        href: "/person",
+      },
+    ],
+  },
+];
 
 const Navbar = () => {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
+  const [isTop, setIsTop] = useState(true);
 
   useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
+    const handleScroll = () => {
+      setIsTop(window.scrollY < 20);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <header className="bg-primary">
-      <div className="container flex h-14 w-full items-center">
-        <Sheet open={open} onOpenChange={setOpen}>
-          <SheetTrigger asChild>
-            <Button className="lg:hidden" size="icon" variant="outline">
-              <Menu className="h-6 w-6" />
-              <span className="sr-only">Toggle navigation menu</span>
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="left">
-            <SheetHeader>
-              <SheetTitle className="ps-1 text-start">LMDB</SheetTitle>
-            </SheetHeader>
-            <div className="grid gap-2 py-6">
-              <NavLink
-                href="/"
-                matching="exact"
-                className={({ isActive, isPending }) =>
-                  cn(
-                    buttonVariants({
-                      size: "lg",
-                      variant: isPending ? "secondary" : "ghost",
-                    }),
-                    "justify-start ps-2 text-base text-foreground/60",
-                    isActive && "text-foreground",
-                    isPending && "animate-pulse",
-                  )
+    <div
+      className={cn(
+        "sticky top-0 z-30 flex h-16 w-full max-w-full justify-center bg-background transition-all",
+        isTop
+          ? "border-transparent"
+          : "border-b border-border shadow-[0px_2px_10px] shadow-black/15 dark:shadow-white/15",
+      )}
+    >
+      <header className="container m-auto flex items-center">
+        <div className="flex flex-1 items-center">
+          <div>
+            <Link className="text-xl font-bold" href="/">
+              LM<span className="text-primary underline">DB</span>
+            </Link>
+          </div>
+          <NavigationMenu
+            className="ml-6 hidden md:block"
+            viewportClassName="transition-all duration-250"
+            delayDuration={100}
+          >
+            <NavigationMenuList>
+              {navItems.map((item) => {
+                if ("href" in item) {
+                  return (
+                    <NavigationMenuItem key={`main-nav-${item.href}`}>
+                      <NavLink
+                        matching="exact"
+                        href={item.href}
+                        className={navigationMenuTriggerStyle()}
+                      >
+                        {item.comp}
+                      </NavLink>
+                    </NavigationMenuItem>
+                  );
                 }
-              >
-                Home
-              </NavLink>
-              <NavLink
-                href="/movies"
-                className={({ isActive, isPending }) =>
-                  cn(
-                    buttonVariants({
-                      size: "lg",
-                      variant: isPending ? "secondary" : "ghost",
-                    }),
-                    "justify-start ps-2 text-base text-foreground/60",
-                    isActive && "text-foreground",
-                    isPending && "animate-pulse",
-                  )
-                }
-              >
-                Popular
-              </NavLink>
-              <NavLink
-                href="/movies/trending"
-                className={({ isActive, isPending }) =>
-                  cn(
-                    buttonVariants({
-                      size: "lg",
-                      variant: isPending ? "secondary" : "ghost",
-                    }),
-                    "justify-start ps-2 text-base text-foreground/60",
-                    isActive && "text-foreground",
-                    isPending && "animate-pulse",
-                  )
-                }
-              >
-                Trending
-              </NavLink>
-              <NavLink
-                href="/movies/top"
-                className={({ isActive, isPending }) =>
-                  cn(
-                    buttonVariants({
-                      size: "lg",
-                      variant: isPending ? "secondary" : "ghost",
-                    }),
-                    "justify-start ps-2 text-base text-foreground/60",
-                    isActive && "text-foreground",
-                    isPending && "animate-pulse",
-                  )
-                }
-              >
-                Top Rated
-              </NavLink>
-            </div>
-          </SheetContent>
-        </Sheet>
 
-        <Link
-          href="/"
-          className="mr-4 hidden text-lg font-bold text-primary-foreground lg:flex"
-        >
-          LMDB
-        </Link>
-        <nav className="hidden items-center gap-2 lg:flex">
-          <NavLink
-            href="/"
-            matching="exact"
-            className={({ isActive, isPending }) =>
-              cn(
-                buttonVariants({
-                  size: "lg",
-                  variant: isPending ? "secondary" : "ghost",
-                }),
-                "text-base text-primary-foreground/60",
-                isActive && "text-primary-foreground",
-                isPending && "animate-pulse",
-              )
-            }
-          >
-            Home
-          </NavLink>
-          <NavLink
-            href="/movies"
-            matching="exact"
-            className={({ isActive, isPending }) =>
-              cn(
-                buttonVariants({
-                  size: "lg",
-                  variant: isPending ? "secondary" : "ghost",
-                }),
-                "text-base text-primary-foreground/60",
-                isActive && "text-primary-foreground",
-                isPending && "animate-pulse",
-              )
-            }
-          >
-            Popular
-          </NavLink>
-          <NavLink
-            href="/movies/trending"
-            matching="exact"
-            className={({ isActive, isPending }) =>
-              cn(
-                buttonVariants({
-                  size: "lg",
-                  variant: isPending ? "secondary" : "ghost",
-                }),
-                "text-base text-primary-foreground/60",
-                isActive && "text-primary-foreground",
-                isPending && "animate-pulse",
-              )
-            }
-          >
-            Trending
-          </NavLink>
-          <NavLink
-            href="/movies/top"
-            matching="exact"
-            className={({ isActive, isPending }) =>
-              cn(
-                buttonVariants({
-                  size: "lg",
-                  variant: isPending ? "secondary" : "ghost",
-                }),
-                "text-base text-primary-foreground/60",
-                isActive && "text-primary-foreground",
-                isPending && "animate-pulse",
-              )
-            }
-          >
-            Top Rated
-          </NavLink>
-        </nav>
-        <nav className="ms-auto flex items-center gap-2">
+                const triggerActive = pathname.startsWith(item.base)
+                  ? { "data-active": true }
+                  : {};
+                return (
+                  <NavigationMenuItem key={`main-nav-${item.subItems[0].href}`}>
+                    <NavigationMenuTrigger {...triggerActive}>
+                      {item.comp}
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <NavigationMenuLink>
+                        <ul className="w-[400px] p-4 lg:w-[500px]">
+                          {item.subItems.map((subItem) => (
+                            <ListItem
+                              key={`sub-nav-${subItem.href}`}
+                              href={subItem.href}
+                              active={pathname === subItem.href}
+                            >
+                              {subItem.comp}
+                            </ListItem>
+                          ))}
+                        </ul>
+                      </NavigationMenuLink>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                );
+              })}
+
+              <NavigationMenuIndicator />
+            </NavigationMenuList>
+          </NavigationMenu>
+        </div>
+        <div className="flex gap-2">
           <Button
-            className="justify-start px-2.5 font-semibold sm:pe-10"
+            className="justify-start border-2 px-2.5 font-medium sm:pe-6"
             variant="outline"
             asChild
           >
             <Link href="/search">
               <Search className="me-0 h-5 w-5 sm:me-2" />
               <span className="sr-only sm:not-sr-only">
-                Search movie, tv show, person
+                Search movie, tv show, person...
               </span>
             </Link>
           </Button>
 
-          {/* <ThemeSelect /> */}
-        </nav>
-      </div>
-    </header>
+          <Drawer>
+            <DrawerTrigger asChild>
+              <Button className="px-2.5 md:hidden" variant="outline">
+                <Menu className="me-0 h-5 w-5" />
+                <span className="sr-only">Open menu</span>
+              </Button>
+            </DrawerTrigger>
+            <DrawerContent>
+              <DrawerHeader>
+                <DrawerTitle className="text-center font-bold">
+                  LM<span className="text-primary underline">DB</span>
+                </DrawerTitle>
+              </DrawerHeader>
+              <DrawerFooter>
+                <Accordion
+                  type="single"
+                  collapsible
+                  defaultValue={`/${pathname.split("/")[1] ?? ""}`}
+                >
+                  {navItems.map((item) => {
+                    if ("href" in item) {
+                      return (
+                        <Fragment key={`mobile-main-nav-${item.href}`}>
+                          <AccordionItem value={item.href}>
+                            <DrawerClose>
+                              <NavLink
+                                matching="exact"
+                                href={item.href}
+                                className={navigationMenuTriggerStyle()}
+                              >
+                                {item.comp}
+                              </NavLink>
+                            </DrawerClose>
+                          </AccordionItem>
+
+                          <Separator />
+                        </Fragment>
+                      );
+                    }
+
+                    return (
+                      <Fragment key={`mobile-main-nav-${item.base}`}>
+                        <AccordionItem
+                          value={item.base}
+                          className="border-none"
+                        >
+                          <AccordionTrigger
+                            className={cn(
+                              buttonVariants({ variant: "ghost" }),
+                              "flex justify-between hover:no-underline focus:no-underline",
+                            )}
+                          >
+                            {item.comp}
+                          </AccordionTrigger>
+                          <AccordionContent>
+                            {item.subItems.map((subItem) => (
+                              <DrawerClose
+                                key={`mobile-nav-subitem-${subItem.href}`}
+                                asChild
+                              >
+                                <Button
+                                  variant={
+                                    pathname === subItem.href
+                                      ? "secondary"
+                                      : "ghost"
+                                  }
+                                  {...(pathname === subItem.href
+                                    ? { "data-active": true }
+                                    : {})}
+                                  className="group flex justify-between"
+                                  asChild
+                                >
+                                  <Link href={subItem.href}>
+                                    {subItem.comp}
+                                  </Link>
+                                </Button>
+                              </DrawerClose>
+                            ))}
+                          </AccordionContent>
+                        </AccordionItem>
+
+                        <Separator className="my-0.5" />
+                      </Fragment>
+                    );
+                  })}
+                </Accordion>
+              </DrawerFooter>
+            </DrawerContent>
+          </Drawer>
+        </div>
+      </header>
+    </div>
   );
 };
+
+const ListItem = React.forwardRef<
+  React.ElementRef<"a">,
+  React.ComponentPropsWithoutRef<"a"> & { href: string; active?: boolean }
+>(({ active = false, className, children, href, ...props }, ref) => {
+  return (
+    <li>
+      <NavigationMenuLink asChild>
+        <Link href={href} legacyBehavior passHref>
+          <a
+            ref={ref}
+            className={cn(
+              "group block select-none rounded-md p-3 text-sm font-medium leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground data-[active]:bg-accent data-[active]:text-accent-foreground",
+              className,
+            )}
+            aria-current={active ? "page" : undefined}
+            {...(active ? { "data-active": true } : {})}
+            {...props}
+          >
+            {children}
+          </a>
+        </Link>
+      </NavigationMenuLink>
+    </li>
+  );
+});
+ListItem.displayName = "ListItem";
 
 export default Navbar;

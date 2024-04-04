@@ -2,7 +2,7 @@ import { BackToTop, BackToTopButton } from "@/components/back-to-top";
 import { NextPage } from "next";
 import { notFound } from "next/navigation";
 import TopBar from "../top-bar";
-import Review from "@/app/movies/[id]/[slug]/review";
+import Review from "@/app/movie/[id]/[slug]/review";
 import { getReviews } from "@/lib/api/tv-show";
 
 interface Props {

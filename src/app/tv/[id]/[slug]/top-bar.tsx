@@ -17,7 +17,7 @@ const TopBar: FC<TopBarProps> = ({ tvShow }) => {
   const posterUrl = tmdbPoster(tvShow, "w154");
   return (
     <>
-      <div className="sticky top-0 z-10 w-full bg-background">
+      <div className="sticky top-16 z-10 w-full bg-background">
         <div className="bg-primary pb-1 pt-2 text-primary-foreground">
           <div className="container flex items-center gap-4">
             <Link href={movieUrl}>

@@ -23,12 +23,12 @@ const Footer = () => {
             </li>
             <li>
               <Button asChild variant="link">
-                <Link href="/movies">Movies</Link>
+                <Link href="/movie">Movies</Link>
               </Button>
             </li>
             <li>
               <Button asChild variant="link">
-                <Link href="/movies/trending">Trending</Link>
+                <Link href="/movie/trending">Trending</Link>
               </Button>
             </li>
           </ul>
