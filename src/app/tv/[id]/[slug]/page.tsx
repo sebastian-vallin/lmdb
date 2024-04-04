@@ -17,7 +17,6 @@ import { RedirectType, notFound, redirect } from "next/navigation";
 import { Fragment } from "react";
 import slugify from "slugify";
 import Review from "@/app/movies/[id]/[slug]/review";
-import { CastCreditUnion } from "@/lib/api/person";
 
 interface Props {
   params: {
@@ -44,17 +43,15 @@ const TvShowDetailsPage: NextPage<Props> = async ({ params }) => {
   const backdropUrl = tmdbBackdrop(tvShow, "w780");
   const releaseDate = new Date(tvShow.first_air_date);
 
-  // const director = credits.crew.find((person) => person.job === "Director");
-  // const directorSlug = director
-  //   ? slugify(director.name, { lower: true, strict: true })
-  //   : null;
-  // const screenplay = credits.crew.find((person) => person.job === "Screenplay");
-  // const screenplaySlug = screenplay
-  //   ? slugify(screenplay.name, {
-  //       lower: true,
-  //       strict: true,
-  //     })
-  //   : null;
+  const creator = tvShow.created_by[0];
+  const creatorSlug = creator
+    ? slugify(creator.name, { lower: true, strict: true })
+    : null;
+
+  const creator2 = tvShow.created_by[1];
+  const creatorSlug2 = creator2
+    ? slugify(creator2.name, { lower: true, strict: true })
+    : null;
 
   return (
     <main>
@@ -109,33 +106,33 @@ const TvShowDetailsPage: NextPage<Props> = async ({ params }) => {
 
             <p className="max-w-2xl">{tvShow.overview}</p>
 
-            {/* <div className="mt-8 flex max-w-md flex-col justify-between gap-4 sm:flex-row">
-              {director && (
+            <div className="mt-8 flex max-w-md flex-col justify-between gap-4 sm:flex-row">
+              {creator && (
                 <p>
                   <Link
                     className="font-semibold underline-offset-4 hover:underline"
-                    href={`/person/${director.id}/${directorSlug}`}
+                    href={`/person/${creator.id}/${creatorSlug}`}
                   >
-                    {director.name}
+                    {creator.name}
                   </Link>
                   <br />
-                  <span className="text-sm">Director</span>
+                  <span className="text-sm">Creator</span>
                 </p>
               )}
 
-              {screenplay && (
+              {creator2 && (
                 <p>
                   <Link
                     className="font-semibold underline-offset-4 hover:underline"
-                    href={`/person/${screenplay.id}/${screenplaySlug}`}
+                    href={`/person/${creator2.id}/${creatorSlug2}`}
                   >
-                    {screenplay.name}
+                    {creator2.name}
                   </Link>
                   <br />
-                  <span className="text-sm">Screenplay</span>
+                  <span className="text-sm">Creator</span>
                 </p>
               )}
-            </div> */}
+            </div>
           </div>
         </div>
         <div className="absolute left-0 top-0 h-full w-full">
@@ -203,15 +200,11 @@ const TvShowDetailsPage: NextPage<Props> = async ({ params }) => {
               );
             })}
             <div className="flex flex-col items-center justify-center">
-              <Button
-                variant="link"
-                className="group gap-1 font-bold"
-                disabled /*asChild*/
-              >
-                {/* <Link href={`/movies/${tvShow.id}/${slug}/cast`}> */}
-                View all
-                <MoveRight className="h-5 w-5 transition-transform group-hover:translate-x-0.5" />
-                {/* </Link> */}
+              <Button variant="link" className="group gap-1 font-bold" asChild>
+                <Link href={`/tv/${tvShow.id}/${slug}/cast`}>
+                  View all
+                  <MoveRight className="h-5 w-5 transition-transform group-hover:translate-x-0.5" />
+                </Link>
               </Button>
             </div>
           </div>
@@ -223,10 +216,8 @@ const TvShowDetailsPage: NextPage<Props> = async ({ params }) => {
         <h2 className="mb-2 text-2xl font-bold">Reviews</h2>
         {reviews.results[0] && <Review review={reviews.results[0]} clamp />}
 
-        <Button variant="secondary" className="mt-4" disabled /*asChild*/>
-          {/* <Link href={`/movies/${tvShow.id}/${slug}/reviews`}> */}
-          View all review
-          {/* </Link> */}
+        <Button variant="secondary" className="mt-4" asChild>
+          <Link href={`/tv/${tvShow.id}/${slug}/reviews`}>View all review</Link>
         </Button>
       </div>
 

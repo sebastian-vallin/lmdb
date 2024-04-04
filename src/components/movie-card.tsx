@@ -16,12 +16,19 @@ import slugify from "slugify";
 import {
   CastCreditUnion,
   CastMovieCredit,
-  CastTvCredit,
+  CastTvShowCredit,
+  CrewCreditUnion,
 } from "@/lib/api/person";
 import { TvShow } from "@/lib/api/tv-show";
 
 export interface MovieCardProps {
-  movie: Movie | TvShow | CastCreditUnion | CastMovieCredit | CastTvCredit;
+  movie:
+    | Movie
+    | TvShow
+    | CastCreditUnion
+    | CrewCreditUnion
+    | CastMovieCredit
+    | CastTvShowCredit;
 }
 
 const MovieCard: FC<MovieCardProps> = ({ movie }) => {

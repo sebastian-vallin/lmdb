@@ -1,5 +1,8 @@
 import { u } from "./helpers";
-import { Cast, Crew, PaginationResponse, Review } from "./movie";
+import { PaginationResponse, Review, ReviewsResponse } from "./movie";
+import { TvShowCreditsResponse } from "./person";
+
+export type TvShowId = number | string;
 
 export interface TvShow {
   adult: boolean;
@@ -159,7 +162,13 @@ export interface AggregatedCrew {
   total_episode_count: number;
 }
 
-export interface TvDetailsAppended extends TvShowDetails {
+export interface AggregatedCreditsResponse {
+  id: number;
+  cast: AggregatedCast[];
+  crew: AggregatedCrew[];
+}
+
+export interface TvShowDetailsAppended extends TvShowDetails {
   aggregate_credits: {
     cast: AggregatedCast[];
     crew: AggregatedCrew[];
@@ -172,7 +181,18 @@ export interface TvDetailsAppended extends TvShowDetails {
   };
 }
 
-export const getDetails = async (id: string | number) => {
+export interface CastDetailsResponse extends TvShowDetails {
+  aggregate_credits: {
+    cast: AggregatedCast[];
+    crew: AggregatedCrew[];
+  };
+}
+
+export interface ReviewsDetailsResponse extends TvShowDetails {
+  reviews: ReviewsResponse;
+}
+
+export const getDetails = async (id: TvShowId) => {
   const url = u(
     `/tv/${id}`,
     "append_to_response=aggregate_credits,recommendations,reviews",
@@ -188,6 +208,96 @@ export const getDetails = async (id: string | number) => {
     return null;
   }
 
-  const data: TvDetailsAppended = await response.json();
+  const data: TvShowDetailsAppended = await response.json();
   return data;
 };
+
+export async function getCredits(
+  id: TvShowId,
+  includeDetails: true,
+): Promise<CastDetailsResponse>;
+export async function getCredits(
+  id: TvShowId,
+  includeDetails?: false | undefined,
+): Promise<AggregatedCreditsResponse>;
+export async function getCredits(
+  id: TvShowId,
+  includeDetails: boolean = false,
+) {
+  if (includeDetails) {
+    const url = u(`/tv/${id}`, "append_to_response=aggregate_credits");
+    const response = await fetch(url, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      console.error(response, await response.text());
+      return null;
+    }
+
+    const data: CastDetailsResponse = await response.json();
+    return data;
+  }
+
+  const url = u(`/tv/${id}/aggregate_credits`);
+  const response = await fetch(url, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    console.error(response, await response.text());
+    return null;
+  }
+
+  const data: AggregatedCreditsResponse = await response.json();
+  return data;
+}
+
+export async function getReviews(
+  id: TvShowId,
+  includeDetails: true,
+): Promise<ReviewsDetailsResponse>;
+export async function getReviews(
+  id: TvShowId,
+  includeDetails?: false | undefined,
+): Promise<ReviewsResponse>;
+export async function getReviews(
+  id: TvShowId,
+  includeDetails: boolean = false,
+) {
+  if (includeDetails) {
+    const url = u(`/tv/${id}`, "append_to_response=reviews");
+    const response = await fetch(url, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      console.error(response, await response.text());
+      return null;
+    }
+
+    const data: ReviewsDetailsResponse = await response.json();
+    return data;
+  }
+
+  const url = u(`/tv/${id}/reviews`);
+  const response = await fetch(url, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    console.error(response, await response.text());
+    return null;
+  }
+
+  const data: ReviewsResponse = await response.json();
+  return data;
+}

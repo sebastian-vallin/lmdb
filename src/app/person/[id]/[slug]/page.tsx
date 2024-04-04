@@ -45,7 +45,7 @@ const PersonDetailsPage: NextPage<Props> = async ({ params }) => {
         return false;
       }
 
-      if (movie.character === "Self") {
+      if ("character" in movie && movie.character === "Self") {
         return false;
       }
 
@@ -157,9 +157,9 @@ const PersonDetailsPage: NextPage<Props> = async ({ params }) => {
               </p>
             ) : (
               <div className="flex w-max space-x-4 px-2 pb-4">
-                {knownFor.slice(0, 10).map((movie, i) => (
-                  <div key={`recommended-${i}-${movie.id}`} className="w-52">
-                    <MovieCard movie={movie} />
+                {knownFor.slice(0, 10).map((credit, i) => (
+                  <div key={`recommended-${i}-${credit.id}`} className="w-52">
+                    <MovieCard movie={credit} />
                   </div>
                 ))}
               </div>

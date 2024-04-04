@@ -70,7 +70,7 @@ export interface CastMovieCredit {
   media_type: "movie";
 }
 
-export interface CastTvCredit {
+export interface CastTvShowCredit {
   id: number;
   adult: boolean;
   backdrop_path: string;
@@ -112,7 +112,7 @@ export interface CrewMovieCredit {
   media_type: "movie";
 }
 
-export interface CrewTvCredit {
+export interface CrewTvShowCredit {
   id: number;
   adult: boolean;
   backdrop_path: string;
@@ -134,19 +134,25 @@ export interface CrewTvCredit {
   media_type: "tv";
 }
 
-export type CastCreditUnion = CastMovieCredit | CastTvCredit;
-export type CrewCreditUnion = CrewMovieCredit | CrewTvCredit;
+export type CastCreditUnion = CastMovieCredit | CastTvShowCredit;
+export type CrewCreditUnion = CrewMovieCredit | CrewTvShowCredit;
 
 export interface CombinedCreditsResponse {
   id: number;
   cast: CastCreditUnion[];
-  crew: CastCreditUnion[];
+  crew: CrewCreditUnion[];
 }
 
 export interface MovieCreditsResponse {
   id: number;
   cast: CastMovieCredit[];
-  crew: CastMovieCredit[];
+  crew: CrewMovieCredit[];
+}
+
+export interface TvShowCreditsResponse {
+  id: number;
+  cast: CastTvShowCredit[];
+  crew: CrewTvShowCredit[];
 }
 
 export interface PersonDetailsAppended extends PersonDetails {
