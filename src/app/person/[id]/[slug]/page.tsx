@@ -291,7 +291,8 @@ interface PersonalInfoProps {
 
 const PersonalInfo: FC<PersonalInfoProps> = ({ person }) => {
   const birthday = person.birthday ? new Date(person.birthday) : null;
-  const age = birthday ? getAge(birthday) : null;
+  const deathday = person.deathday ? new Date(person.deathday) : null;
+  const age = birthday ? getAge(birthday, deathday) : null;
 
   return (
     <>
@@ -310,7 +311,7 @@ const PersonalInfo: FC<PersonalInfoProps> = ({ person }) => {
           </dd>
         </div>
         <div className="flex flex-col justify-between gap-x-2 md:flex-row">
-          <dt className="font-bold">Birthday</dt>
+          <dt className="font-bold">Born</dt>
           <dd className="font-medium md:text-end">
             {birthday ? (
               formatDate(birthday, { dateStyle: "medium" })
@@ -319,6 +320,14 @@ const PersonalInfo: FC<PersonalInfoProps> = ({ person }) => {
             )}
           </dd>
         </div>
+        {deathday && (
+          <div className="flex flex-col justify-between gap-x-2 md:flex-row">
+            <dt className="font-bold">Died</dt>
+            <dd className="font-medium md:text-end">
+              {formatDate(deathday, { dateStyle: "medium" })}
+            </dd>
+          </div>
+        )}
         <div className="flex flex-col justify-between gap-x-2 md:flex-row">
           <dt className="font-bold">Age</dt>
           <dd className="font-medium md:text-end">
@@ -336,8 +345,8 @@ const PersonalInfo: FC<PersonalInfoProps> = ({ person }) => {
   );
 };
 
-const getAge = (date: Date) => {
-  const now = new Date();
+const getAge = (date: Date, deathDay?: Date | null) => {
+  const now = deathDay ?? new Date();
   const age = now.getFullYear() - date.getFullYear();
   if (
     now.getMonth() < date.getMonth() ||
