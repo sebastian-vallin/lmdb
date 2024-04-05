@@ -4,6 +4,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Button, buttonVariants } from "./ui/button";
 import Link from "next/link";
 import {
+  CalendarDays,
   Film,
   Flame,
   Menu,
@@ -107,7 +108,7 @@ const navItems: (NavItem | NavItemWithSubItems)[] = [
         comp: (
           <span className="flex w-full items-center justify-between gap-1">
             Popular
-            <Flame className="h-5 w-5 fill-transparent transition-all group-hover:fill-orange-600 group-hover:text-orange-600 group-focus:fill-orange-600 group-focus:text-orange-600 group-data-[active]:fill-orange-600 group-data-[active]:text-orange-600" />
+            <Flame className="h-5 w-5 fill-transparent transition-all group-hover:scale-110 group-hover:fill-orange-600 group-hover:text-orange-600 group-focus:scale-110 group-focus:fill-orange-600 group-focus:text-orange-600 group-data-[active]:scale-110 group-data-[active]:fill-orange-600 group-data-[active]:text-orange-600" />
           </span>
         ),
         href: "/tv",
@@ -125,10 +126,19 @@ const navItems: (NavItem | NavItemWithSubItems)[] = [
         comp: (
           <span className="flex w-full items-center justify-between gap-1">
             Top Rated
-            <Sparkles className="h-5 w-5 fill-transparent transition-all group-hover:fill-yellow-500 group-hover:text-yellow-500 group-focus:fill-yellow-500 group-focus:text-yellow-500 group-data-[active]:fill-yellow-500 group-data-[active]:text-yellow-500" />
+            <Sparkles className="h-5 w-5 fill-transparent transition-all group-hover:scale-110 group-hover:fill-yellow-500 group-hover:text-yellow-500 group-focus:scale-110 group-focus:fill-yellow-500 group-focus:text-yellow-500 group-data-[active]:scale-110 group-data-[active]:fill-yellow-500 group-data-[active]:text-yellow-500" />
           </span>
         ),
         href: "/tv/top",
+      },
+      {
+        comp: (
+          <span className="flex w-full items-center justify-between gap-1">
+            Airing Today
+            <CalendarDays className="h-5 w-5 fill-transparent transition-all group-hover:scale-110 group-hover:fill-primary-foreground group-hover:text-primary group-focus:scale-110 group-focus:fill-primary-foreground group-focus:text-primary group-data-[active]:scale-110 group-data-[active]:fill-primary-foreground group-data-[active]:text-primary" />
+          </span>
+        ),
+        href: "/tv/today",
       },
     ],
   },
@@ -146,7 +156,7 @@ const navItems: (NavItem | NavItemWithSubItems)[] = [
         comp: (
           <span className="flex w-full items-center justify-between gap-1">
             Popular
-            <Flame className="h-5 w-5 fill-transparent transition-all group-hover:fill-orange-600 group-hover:text-orange-600 group-focus:fill-orange-600 group-focus:text-orange-600 group-data-[active]:fill-orange-600 group-data-[active]:text-orange-600" />
+            <Flame className="h-5 w-5 fill-transparent transition-all group-hover:scale-110 group-hover:fill-orange-600 group-hover:text-orange-600 group-focus:scale-110 group-focus:fill-orange-600 group-focus:text-orange-600 group-data-[active]:scale-110 group-data-[active]:fill-orange-600 group-data-[active]:text-orange-600" />
           </span>
         ),
         href: "/person",

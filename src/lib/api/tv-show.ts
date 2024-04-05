@@ -201,6 +201,10 @@ export interface PopularTvShowResponse extends PaginationResponse {
   results: TvShow[];
 }
 
+export interface AiringTodayTvShowResponse extends PaginationResponse {
+  results: TvShow[];
+}
+
 export const getDetails = async (id: TvShowId) => {
   const url = u(
     `/tv/${id}`,
@@ -367,6 +371,27 @@ export async function getTopRated(page?: Page) {
   }
 
   const data: TopRatedTvShowResponse = await response.json();
+  data.results = data.results.map((tvShow: TvShow) => ({
+    ...tvShow,
+    media_type: "tv",
+  }));
+  return data;
+}
+
+export async function getAiringToday(page?: Page) {
+  const url = u(`/tv/airing_today`, page ? `page=${page}` : "");
+  const response = await fetch(url, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    console.error(response, await response.text());
+    throw new Error("Failed to fetch top rated tv shows");
+  }
+
+  const data: AiringTodayTvShowResponse = await response.json();
   data.results = data.results.map((tvShow: TvShow) => ({
     ...tvShow,
     media_type: "tv",
