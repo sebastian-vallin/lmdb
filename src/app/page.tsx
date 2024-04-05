@@ -25,7 +25,7 @@ const HomePage = async () => {
             <span className="relative">
               Welcome to{" "}
               <span className="font-bold">
-                LM
+                <span>LM</span>
                 <span className="text-primary underline">DB</span>
               </span>
               <small className="absolute -bottom-4 right-0 text-xs">
