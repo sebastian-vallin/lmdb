@@ -1,4 +1,4 @@
-import MovieCard from "@/components/movie-card";
+import ListCard from "@/components/list-card";
 import { Rating } from "@/components/rating";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
@@ -235,7 +235,7 @@ const TvShowDetailsPage: NextPage<Props> = async ({ params }) => {
                   key={`recommended-${i}-${tvShow.id}`}
                   className="w-52 rounded-lg bg-secondary"
                 >
-                  <MovieCard movie={tvShow} />
+                  <ListCard item={tvShow} />
                 </div>
               ))}
             </div>

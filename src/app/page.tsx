@@ -1,4 +1,4 @@
-import MovieCard from "@/components/movie-card";
+import ListCard from "@/components/list-card";
 import { Button } from "@/components/ui/button";
 import {
   Carousel,
@@ -64,7 +64,7 @@ const HomePage = async () => {
                   key={`popular-${movie.id}`}
                   className="basis-full md:basis-1/2 lg:basis-1/4 xl:basis-1/5"
                 >
-                  <MovieCard movie={movie} />
+                  <ListCard item={movie} />
                 </CarouselItem>
               ))}
             </CarouselContent>
@@ -103,7 +103,7 @@ const HomePage = async () => {
                   key={`trending-${movie.id}`}
                   className="basis-full md:basis-1/2 lg:basis-1/4 xl:basis-1/5"
                 >
-                  <MovieCard movie={movie} />
+                  <ListCard item={movie} />
                 </CarouselItem>
               ))}
             </CarouselContent>

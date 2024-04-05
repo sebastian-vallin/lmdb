@@ -1,6 +1,6 @@
 "use client";
 
-import MovieCard from "@/components/movie-card";
+import ListCard from "@/components/list-card";
 import { Button } from "@/components/ui/button";
 import { Movie } from "@/lib/api/movie";
 import {
@@ -8,36 +8,38 @@ import {
   CastMovieCredit,
   CastTvShowCredit,
   CrewCreditUnion,
+  Person,
 } from "@/lib/api/person";
 import { TvShow } from "@/lib/api/tv-show";
 import { cn } from "@/lib/utils";
 import { FC, useCallback, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 
-type MovieType =
+type ItemType =
   | Movie
   | TvShow
   | CastCreditUnion
   | CrewCreditUnion
   | CastMovieCredit
-  | CastTvShowCredit;
+  | CastTvShowCredit
+  | Person;
 
-export interface MovieListProps {
-  initialMovies: MovieType[];
+export interface ListProps {
+  initialItems: ItemType[];
   totalPages: number;
-  loadFn?: (page: number) => MovieType[] | Promise<MovieType[]>;
+  loadFn?: (page: number) => ItemType[] | Promise<ItemType[]>;
   className?: string;
 }
 
-const MovieList: FC<MovieListProps> = ({
-  initialMovies,
+const List: FC<ListProps> = ({
+  initialItems,
   totalPages,
   loadFn,
   className,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [movies, setMovies] = useState(initialMovies);
+  const [items, setItems] = useState(initialItems);
   const [loadMoreRef] = useInView({
     delay: 150,
     skip: isLoading || page >= totalPages,
@@ -52,20 +54,20 @@ const MovieList: FC<MovieListProps> = ({
     setIsLoading(true);
     const nextPage = page + 1;
     const results = loadFn ? await loadFn(nextPage) : [];
-    setMovies([...movies, ...results]);
+    setItems([...items, ...results]);
     setPage(nextPage);
     setIsLoading(false);
-  }, [movies, page, loadFn]);
+  }, [items, page, loadFn]);
 
   useEffect(() => {
-    setMovies(initialMovies);
-  }, [initialMovies]);
+    setItems(initialItems);
+  }, [initialItems]);
 
   return (
     <div className={cn("w-full space-y-8", className)}>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
-        {movies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
+        {items.map((item) => (
+          <ListCard key={item.id} item={item} />
         ))}
       </div>
 
@@ -81,7 +83,7 @@ const MovieList: FC<MovieListProps> = ({
           </Button>
         ) : (
           <span className="font-medium text-muted-foreground">
-            {movies.length > 0 ? "No more movies" : "No movies found"}
+            {items.length > 0 ? "No more results" : "No results found"}
           </span>
         )}
       </p>
@@ -89,4 +91,4 @@ const MovieList: FC<MovieListProps> = ({
   );
 };
 
-export default MovieList;
+export default List;

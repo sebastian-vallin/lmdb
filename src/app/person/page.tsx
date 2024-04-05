@@ -1,21 +1,21 @@
-import { getTrending } from "@/lib/api/movie";
 import { NextPage } from "next";
 import List from "@/components/list";
+import { getPopular } from "@/lib/api/person";
 
 interface Props {}
 
-const MoviePage: NextPage<Props> = async () => {
-  const { results, total_pages: totalPages } = await getTrending("week");
+const TopRatedTvShowPage: NextPage<Props> = async () => {
+  const { results, total_pages: totalPages } = await getPopular();
 
   return (
     <main className="container mt-8">
-      <h1 className="mb-4 text-4xl font-bold">Trending Movies this week</h1>
+      <h1 className="mb-4 text-4xl font-bold">Popular People</h1>
       <List
         initialItems={results}
         totalPages={totalPages}
         loadFn={async (page) => {
           "use server";
-          const { results } = await getTrending("week", page);
+          const { results } = await getPopular(page);
           return results;
         }}
       />
@@ -23,4 +23,4 @@ const MoviePage: NextPage<Props> = async () => {
   );
 };
 
-export default MoviePage;
+export default TopRatedTvShowPage;

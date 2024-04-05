@@ -171,6 +171,7 @@ export const getPopular = async (page?: string | number | undefined) => {
   }
 
   const data: PopularMoviesResponse = await response.json();
+  data.results = data.results.map((m) => ({ ...m, media_type: "movie" }));
   return data;
 };
 
@@ -191,6 +192,7 @@ export const getTrending = async (
   }
 
   const data: TrendingMoviesResponse = await response.json();
+  data.results = data.results.map((m) => ({ ...m, media_type: "movie" }));
   return data;
 };
 
@@ -208,6 +210,7 @@ export const getTopRated = async (page?: string | number | undefined) => {
   }
 
   const data: PopularMoviesResponse = await response.json();
+  data.results = data.results.map((m) => ({ ...m, media_type: "movie" }));
   return data;
 };
 

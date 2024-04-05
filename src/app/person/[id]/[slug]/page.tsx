@@ -1,4 +1,4 @@
-import MovieCard from "@/components/movie-card";
+import ListCard from "@/components/list-card";
 import {
   Accordion,
   AccordionContent,
@@ -159,7 +159,7 @@ const PersonDetailsPage: NextPage<Props> = async ({ params }) => {
               <div className="flex w-max space-x-4 px-2 pb-4">
                 {knownFor.slice(0, 10).map((credit, i) => (
                   <div key={`recommended-${i}-${credit.id}`} className="w-52">
-                    <MovieCard movie={credit} />
+                    <ListCard item={credit} />
                   </div>
                 ))}
               </div>

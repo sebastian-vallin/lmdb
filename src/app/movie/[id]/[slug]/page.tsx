@@ -1,4 +1,4 @@
-import MovieCard from "@/components/movie-card";
+import ListCard from "@/components/list-card";
 import { Rating } from "@/components/rating";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
@@ -228,7 +228,7 @@ const MovieDetailsPage: NextPage<Props> = async ({ params }) => {
             <div className="flex w-max space-x-4 px-2 pb-4">
               {recommendations.results.slice(0, 10).map((movie, i) => (
                 <div key={`recommended-${i}-${movie.id}`} className="w-52">
-                  <MovieCard movie={movie} />
+                  <ListCard item={movie} />
                 </div>
               ))}
             </div>

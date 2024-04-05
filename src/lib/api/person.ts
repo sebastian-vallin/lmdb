@@ -1,4 +1,5 @@
 import { u } from "./helpers";
+import { PaginationResponse } from "./movie";
 
 //#region Types
 
@@ -159,6 +160,10 @@ export interface PersonDetailsAppended extends PersonDetails {
   combined_credits: CombinedCreditsResponse;
 }
 
+export interface PopularPersonResponse extends PaginationResponse {
+  results: Person[];
+}
+
 //#endregion Types
 
 //#region API
@@ -238,5 +243,23 @@ export const getDetails = async (id: string | number) => {
   const data: PersonDetailsAppended = await response.json();
   return data;
 };
+
+export async function getPopular(page?: string | number) {
+  const url = u(`/person/popular`, page ? `page=${page}` : "");
+  const response = await fetch(url, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    console.error(response, await response.text());
+    throw new Error("Failed to fetch top rated tv shows");
+  }
+
+  const data: PopularPersonResponse = await response.json();
+  data.results = data.results.map((r) => ({ ...r, media_type: "person" }));
+  return data;
+}
 
 //#endregion API
