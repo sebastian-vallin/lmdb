@@ -82,3 +82,12 @@
     @apply bg-background text-foreground;
   }
 }
+
+[vaul-drawer-wrapper] #navbar-wrapper {
+  transition: all 0.25s ease;
+  translate: 0 0;
+}
+
+[vaul-drawer-wrapper][aria-hidden="true"] #navbar-wrapper {
+  translate: 0 -4rem;
+}

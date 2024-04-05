@@ -1,15 +1,15 @@
-import { getTopRated } from "@/lib/api/movie";
+import { getTopRated } from "@/lib/api/tv-show";
 import { NextPage } from "next";
 import MovieList from "@/components/movie-list";
 
 interface Props {}
 
-const MoviePage: NextPage<Props> = async () => {
+const TopRatedTvShowPage: NextPage<Props> = async () => {
   const { results, total_pages: totalPages } = await getTopRated();
 
   return (
     <main className="container mt-8">
-      <h1 className="mb-4 text-4xl font-bold">Top Movie</h1>
+      <h1 className="mb-4 text-4xl font-bold">Top TV Shows</h1>
       <MovieList
         initialMovies={results}
         totalPages={totalPages}
@@ -23,4 +23,4 @@ const MoviePage: NextPage<Props> = async () => {
   );
 };
 
-export default MoviePage;
+export default TopRatedTvShowPage;

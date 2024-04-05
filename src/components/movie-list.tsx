@@ -3,14 +3,29 @@
 import MovieCard from "@/components/movie-card";
 import { Button } from "@/components/ui/button";
 import { Movie } from "@/lib/api/movie";
+import {
+  CastCreditUnion,
+  CastMovieCredit,
+  CastTvShowCredit,
+  CrewCreditUnion,
+} from "@/lib/api/person";
+import { TvShow } from "@/lib/api/tv-show";
 import { cn } from "@/lib/utils";
 import { FC, useCallback, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 
+type MovieType =
+  | Movie
+  | TvShow
+  | CastCreditUnion
+  | CrewCreditUnion
+  | CastMovieCredit
+  | CastTvShowCredit;
+
 export interface MovieListProps {
-  initialMovies: Movie[];
+  initialMovies: MovieType[];
   totalPages: number;
-  loadFn?: (page: number) => Movie[] | Promise<Movie[]>;
+  loadFn?: (page: number) => MovieType[] | Promise<MovieType[]>;
   className?: string;
 }
 

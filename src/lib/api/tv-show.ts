@@ -1,8 +1,9 @@
 import { u } from "./helpers";
 import { PaginationResponse, Review, ReviewsResponse } from "./movie";
-import { TvShowCreditsResponse } from "./person";
 
 export type TvShowId = number | string;
+
+export type Page = number | string;
 
 export interface TvShow {
   adult: boolean;
@@ -192,6 +193,14 @@ export interface ReviewsDetailsResponse extends TvShowDetails {
   reviews: ReviewsResponse;
 }
 
+export interface TopRatedTvShowResponse extends PaginationResponse {
+  results: TvShow[];
+}
+
+export interface PopularTvShowResponse extends PaginationResponse {
+  results: TvShow[];
+}
+
 export const getDetails = async (id: TvShowId) => {
   const url = u(
     `/tv/${id}`,
@@ -299,5 +308,68 @@ export async function getReviews(
   }
 
   const data: ReviewsResponse = await response.json();
+  return data;
+}
+
+export async function getPopular(page?: Page) {
+  const url = u(`/tv/popular`, page ? `page=${page}` : "");
+  const response = await fetch(url, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    console.error(response, await response.text());
+    throw new Error("Failed to fetch top rated tv shows");
+  }
+
+  const data: PopularTvShowResponse = await response.json();
+  data.results = data.results.map((tvShow: TvShow) => ({
+    ...tvShow,
+    media_type: "tv",
+  }));
+  return data;
+}
+
+export async function getTrending(timeWindow: "day" | "week", page?: Page) {
+  const url = u(`/trending/tv/${timeWindow}`, page ? `page=${page}` : "");
+  const response = await fetch(url, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    console.error(response, await response.text());
+    throw new Error("Failed to fetch top rated tv shows");
+  }
+
+  const data: TopRatedTvShowResponse = await response.json();
+  data.results = data.results.map((tvShow: TvShow) => ({
+    ...tvShow,
+    media_type: "tv",
+  }));
+  return data;
+}
+
+export async function getTopRated(page?: Page) {
+  const url = u(`/tv/top_rated`, page ? `page=${page}` : "");
+  const response = await fetch(url, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    console.error(response, await response.text());
+    throw new Error("Failed to fetch top rated tv shows");
+  }
+
+  const data: TopRatedTvShowResponse = await response.json();
+  data.results = data.results.map((tvShow: TvShow) => ({
+    ...tvShow,
+    media_type: "tv",
+  }));
   return data;
 }

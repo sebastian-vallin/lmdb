@@ -170,6 +170,7 @@ const Navbar = () => {
 
   return (
     <div
+      id="navbar-wrapper"
       className={cn(
         "sticky top-0 z-30 flex h-16 w-full max-w-full justify-center bg-background transition-all",
         isTop
@@ -252,7 +253,7 @@ const Navbar = () => {
 
           <Drawer>
             <DrawerTrigger asChild>
-              <Button className="px-2.5 md:hidden" variant="outline">
+              <Button className="border-2 px-2.5 md:hidden" variant="outline">
                 <Menu className="me-0 h-5 w-5" />
                 <span className="sr-only">Open menu</span>
               </Button>
