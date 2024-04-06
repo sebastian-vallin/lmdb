@@ -8,7 +8,7 @@ import {
   useTmdbPoster as tmdbPoster,
 } from "@/hooks/useTmdbImage";
 import { getDetails } from "@/lib/api/tv-show";
-import { formatDate } from "@/lib/utils";
+import { Duration, formatDate } from "@/lib/utils";
 import { MoveRight } from "lucide-react";
 import { NextPage } from "next";
 import Image from "next/image";
@@ -17,6 +17,8 @@ import { RedirectType, notFound, redirect } from "next/navigation";
 import { Fragment } from "react";
 import slugify from "slugify";
 import Review from "@/app/movie/[id]/[slug]/review";
+
+export const revalidate = Duration.minutes(30);
 
 interface Props {
   params: {

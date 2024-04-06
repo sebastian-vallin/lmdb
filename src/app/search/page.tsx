@@ -8,6 +8,9 @@ import {
   tvSearch,
 } from "@/lib/api/search";
 import SearchList from "./search-list";
+import { Duration } from "@/lib/utils";
+
+export const revalidate = Duration.minutes(5);
 
 interface Props {
   searchParams: {

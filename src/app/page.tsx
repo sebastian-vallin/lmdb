@@ -8,8 +8,11 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { getPopular, getTrending } from "@/lib/api/movie";
+import { Duration } from "@/lib/utils";
 import { MoveRight } from "lucide-react";
 import Link from "next/link";
+
+export const revalidate = Duration.minutes(30);
 
 const HomePage = async () => {
   const [popularMovies, trendingMovies] = await Promise.all([

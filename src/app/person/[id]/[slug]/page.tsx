@@ -16,13 +16,15 @@ import {
   PersonDetails,
   getDetails,
 } from "@/lib/api/person";
-import { cn, formatDate, getGender } from "@/lib/utils";
+import { Duration, cn, formatDate, getGender } from "@/lib/utils";
 import { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { FC } from "react";
 import slugify from "slugify";
+
+export const revalidate = Duration.minutes(30);
 
 interface Props {
   params: {

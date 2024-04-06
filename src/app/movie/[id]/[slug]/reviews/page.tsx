@@ -4,6 +4,9 @@ import { NextPage } from "next";
 import { notFound } from "next/navigation";
 import TopBar from "../top-bar";
 import Review from "../review";
+import { Duration } from "@/lib/utils";
+
+export const revalidate = Duration.minutes(5);
 
 interface Props {
   params: {

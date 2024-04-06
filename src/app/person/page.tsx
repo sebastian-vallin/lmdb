@@ -1,6 +1,9 @@
 import { NextPage } from "next";
 import List from "@/components/list";
 import { getPopular } from "@/lib/api/person";
+import { Duration } from "@/lib/utils";
+
+export const revalidate = Duration.minutes(30);
 
 interface Props {}
 

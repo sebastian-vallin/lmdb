@@ -4,6 +4,9 @@ import { notFound } from "next/navigation";
 import TopBar from "../top-bar";
 import Review from "@/app/movie/[id]/[slug]/review";
 import { getReviews } from "@/lib/api/tv-show";
+import { Duration } from "@/lib/utils";
+
+export const revalidate = Duration.minutes(5);
 
 interface Props {
   params: {

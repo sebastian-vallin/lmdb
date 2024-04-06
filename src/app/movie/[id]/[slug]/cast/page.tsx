@@ -9,6 +9,9 @@ import { notFound } from "next/navigation";
 import { FC } from "react";
 import slugify from "slugify";
 import TopBar from "../top-bar";
+import { Duration } from "@/lib/utils";
+
+export const revalidate = Duration.minutes(30);
 
 interface Props {
   params: {
