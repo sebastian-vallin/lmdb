@@ -216,9 +216,11 @@ const Navbar = () => {
                   );
                 }
 
-                const triggerActive = pathname.startsWith(item.base)
-                  ? { "data-active": true }
-                  : {};
+                const triggerActive =
+                  pathname.startsWith(item.base) &&
+                  item.subItems.some((subItem) => pathname === subItem.href)
+                    ? { "data-active": true }
+                    : {};
                 return (
                   <NavigationMenuItem key={`main-nav-${item.subItems[0].href}`}>
                     <NavigationMenuTrigger {...triggerActive}>
@@ -278,7 +280,18 @@ const Navbar = () => {
                 <Accordion
                   type="single"
                   collapsible
-                  defaultValue={`/${pathname.split("/")[1] ?? ""}`}
+                  defaultValue={
+                    navItems.some(
+                      (item) =>
+                        "base" in item &&
+                        pathname.startsWith(item.base) &&
+                        item.subItems.some(
+                          (subItem) => pathname === subItem.href,
+                        ),
+                    )
+                      ? `/${pathname.split("/")[1] ?? ""}`
+                      : undefined
+                  }
                 >
                   {navItems.map((item) => {
                     if ("href" in item) {
