@@ -9,7 +9,7 @@ interface Props {}
 const Page: NextPage<Props> = () => {
   return (
     <main className="container mt-8">
-      <article className="prose dark:prose-invert prose-a:text-primary mx-auto">
+      <article className="prose mx-auto dark:prose-invert prose-a:text-primary">
         <HeadingLink level="h1" id="lmdb">
           About LMDB
         </HeadingLink>
@@ -34,7 +34,7 @@ const Page: NextPage<Props> = () => {
         </HeadingLink>
         <p>
           <a
-            href="https://themoviedb.com"
+            href="https://themoviedb.org"
             target="_blank"
             rel="noreferrer noopener"
           >
