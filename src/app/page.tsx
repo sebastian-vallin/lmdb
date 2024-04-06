@@ -33,9 +33,9 @@ const HomePage = async () => {
               </span>
               <small className="absolute -bottom-4 right-0 text-xs">
                 Powered by{" "}
-                <a className="underline" href="https://www.themoviedb.org/">
+                <Link className="underline" href="/about#tmdb">
                   TMDB
-                </a>
+                </Link>
               </small>
             </span>
           </h1>

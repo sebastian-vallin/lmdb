@@ -23,12 +23,7 @@ const Footer = () => {
             </li>
             <li>
               <Button asChild variant="link">
-                <Link href="/movie">Movies</Link>
-              </Button>
-            </li>
-            <li>
-              <Button asChild variant="link">
-                <Link href="/movie/trending">Trending</Link>
+                <Link href="/about">About</Link>
               </Button>
             </li>
           </ul>
@@ -44,15 +39,13 @@ const Footer = () => {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
-                <Link href="https://www.themoviedb.org/">
+                <Link href="/about#tmdb">
                   <Image src={tmdbImage} alt="TMDB" width={50} height={21} />
                 </Link>
               </TooltipTrigger>
               <TooltipContent>
                 <Button asChild variant="link" className="font-semibold">
-                  <Link href="https://www.themoviedb.org/">
-                    The Movie Database (TMDB)
-                  </Link>
+                  <Link href="/about#tmdb">The Movie Database (TMDB)</Link>
                 </Button>
               </TooltipContent>
             </Tooltip>
